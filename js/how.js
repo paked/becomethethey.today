@@ -19,6 +19,8 @@
     }
   ];
 
+  var log = [];
+
   var index = 0;
 
   function done() {
@@ -41,12 +43,32 @@
     return undefined;
   }
 
+  function mark() {
+    for (var i = 0; i < log.length; i++) {
+      $('#marks').append('<li>' + log[i] + '</li>');
+    }
+  }
+
   function clickOption(option) {
+    var msg = 'You got \'' + options[index].title + '\' ';
+    if (option.correct) {
+      msg += 'right';
+    } else {
+      msg += 'wrong';
+    }
+    msg += '!';
+    log.push(msg);
+
     index++;
 
     if (done()) {
       console.log('making this shit');
       console.log('going to show socres now');
+
+      $('#results').show();
+      $('#questions').hide();
+
+      mark();
 
       return;
     }
@@ -63,6 +85,8 @@
   }
 
   $(document).ready(function() {
+    $('#results').hide();
+
     $('#option-1').click(function() {
       clickOption(option(FIRST_OPTION))
     });
